@@ -10,6 +10,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 10.x
+    - name: Install cwebp
+      run: |
+        apt-get update
+        apt-get install webp -y
     - name: npm install, lint, and test
       run: |
         npm ci

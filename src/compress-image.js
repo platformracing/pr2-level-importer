@@ -9,8 +9,8 @@ let i = 1
  * @param {Buffer} imageBuffer
  */
 const compressImage = async (imageBuffer) => {
-  const src = `/tmp/${i}.png`
-  const out = `/tmp/${i}.webp`
+  const src = `${i}.png`
+  const out = `${i}.webp`
   i++
   fs.writeFileSync(src, imageBuffer)
   await execFilePromise('cwebp', [
@@ -21,6 +21,8 @@ const compressImage = async (imageBuffer) => {
     '-o', out
   ])
   const compressedBuffer = fs.readFileSync(out)
+  fs.unlinkSync(src)
+  fs.unlinkSync(out)
   return compressedBuffer
 }
 

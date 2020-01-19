@@ -1,0 +1,53 @@
+org: jacobgrahn
+app: platform-racing
+service: pr2-level-importer
+
+package:
+  exclude:
+    - "layers/**"
+    - "stashed/**"
+    - "node_modules/**"
+
+custom:
+  bucket: ${self:provider.stage}-pr4-levels
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:GetObject
+      Resource: "arn:aws:s3:::${self:custom.bucket}/pr2/*"
+
+layers:
+  nodemodules:
+    package:
+      artifact: layers/node_modules.zip
+  bin:
+    package:
+      artifact: layers/bin.zip
+
+functions:
+  import-level:
+    handler: src/index.handler
+    memorySize: 1024 # optional, in MB, default is 1024
+    timeout: 900 # optional, in seconds, default is 6
+    environment:
+      BUCKET: ${self:custom.bucket}
+      SAVE_TARGET: ${env:SAVE_TARGET, 's3'} # s3 or local
+    events:
+      - http:
+          path: import-from-pr2/{levelId}
+          method: get
+          async: true
+          request:
+            parameters:
+               paths:
+                 levelId: true
+    layers:
+     - { Ref: NodemodulesLambdaLayer }
+     - { Ref: BinLambdaLayer }

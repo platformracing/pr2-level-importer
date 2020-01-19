@@ -12,8 +12,8 @@ jobs:
         node-version: 10.x
     - name: Install cwebp
       run: |
-        apt-get update
-        apt-get install webp -y
+        sudo apt-get update
+        sudo apt-get install webp -y
     - name: npm install, lint, and test
       run: |
         npm ci

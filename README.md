@@ -7,3 +7,10 @@ To test locally: `export SAVE_TARGET=local && sls invoke local -f import-level -
 To run unit tests: `npm run test`
 
 To deploy: `sls deploy` (you'll need the right access on AWS)
+
+### Generate AWS Policy for serverless account
+https://github.com/dancrumb/generator-serverless-policy
+```
+npm i -g yo generator-serverless-policy
+yo serverless-policy
+```

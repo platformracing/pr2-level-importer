@@ -1,0 +1,32 @@
+name: PR Checks
+on: pull_request
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+
+    - name: Install cwebp
+      run: |
+        sudo apt-get update
+        sudo apt-get install webp -y
+
+    - name: Install npm deps
+      run: npm ci
+
+    - name: Lint
+      run: npm run lint
+
+    - name: Test
+      run: npm test
+      
+      env:
+        CI: true

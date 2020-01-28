@@ -9,7 +9,7 @@ test('parse art', () => {
 
   const result = parseArt(artArr)
   expect(result.objects).toEqual([{
-    x: 10155,
+    x: 10159,
     y: 10082,
     polyline: [
       { x: 0, y: 0 },

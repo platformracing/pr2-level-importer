@@ -20,7 +20,7 @@ const parseArt = (artArr = []) => {
       thickness = Number(content)
     } else if (type === 'd') {
       objects.push(parseLine(content, color, thickness, mode))
-    } else if (type === 'm') {
+    } else if (type === 'q') {
       mode = content
     } else if (type === 'p') {
       parallax = Number(content)
